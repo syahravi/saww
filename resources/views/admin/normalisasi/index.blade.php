@@ -8,7 +8,8 @@
         <div class="table-responsive">
             @if($santri->isEmpty() || $criteria->isEmpty() || empty($normalisasiData))
                 <div class="text-center py-4">
-                    <h5 class="text-muted">Data tidak tersedia</h5>
+                    <h5 class="text-muted">Data tidak tersedia.</h5>
+                    <h6 class="text-muted">Silakan lakukan <a href="{{ route('admin.penilaian.index') }}">penilaian</a></h6>
                 </div>
             @else
                 <table class="table">

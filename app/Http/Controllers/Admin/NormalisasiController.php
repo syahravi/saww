@@ -18,30 +18,43 @@ class NormalisasiController extends Controller
 
         // Ambil semua penilaian berdasarkan santri dan kriteria
         $penilaian = Penilaian::all()->groupBy('criteria_id');
-
         $normalisasiData = [];
 
         foreach ($criteria as $c) {
-            $nilaiList = $penilaian[$c->id]->pluck('nilai')->toArray();
+            // Check if the current criteria_id exists in the $penilaian collection
+            if (isset($penilaian[$c->id])) {
+                $nilaiList = $penilaian[$c->id]->pluck('nilai')->toArray();
 
-            if ($c->jenis == 'benefit') {
-                $max = max($nilaiList);
-            } else {
-                $min = min($nilaiList);
-            }
+                if ($c->jenis == 'benefit') {
+                    // Handle case where $nilaiList might be empty to avoid max/min errors
+                    $max = !empty($nilaiList) ? max($nilaiList) : 0; // Or a suitable default
+                } else {
+                    // Handle case where $nilaiList might be empty to avoid max/min errors
+                    $min = !empty($nilaiList) ? min($nilaiList) : 0; // Or a suitable default
+                }
 
-            foreach ($penilaian[$c->id] as $p) {
-                $nilaiNormalisasi = $c->jenis == 'benefit' ?
-                                    ($p->nilai / $max) :
-                                    ($min / $p->nilai);
+                foreach ($penilaian[$c->id] as $p) {
+                    // Ensure $max or $min is not zero to prevent division by zero errors
+                    $nilaiNormalisasi = 0; // Default value in case of division by zero
 
-                // Simpan normalisasi ke database
-                Normalisasi::updateOrCreate(
-                    ['santri_id' => $p->santri_id, 'criteria_id' => $c->id],
-                    ['nilai_normalisasi' => $nilaiNormalisasi]
-                );
+                    if ($c->jenis == 'benefit') {
+                        if ($max != 0) {
+                            $nilaiNormalisasi = ($p->nilai / $max);
+                        }
+                    } else {
+                        if ($p->nilai != 0) { // Check $p->nilai to prevent division by zero
+                            $nilaiNormalisasi = ($min / $p->nilai);
+                        }
+                    }
 
-                $normalisasiData[$p->santri_id][$c->id] = $nilaiNormalisasi;
+                    // Simpan normalisasi ke database
+                    Normalisasi::updateOrCreate(
+                        ['santri_id' => $p->santri_id, 'criteria_id' => $c->id],
+                        ['nilai_normalisasi' => $nilaiNormalisasi]
+                    );
+
+                    $normalisasiData[$p->santri_id][$c->id] = $nilaiNormalisasi;
+                }
             }
         }
 
