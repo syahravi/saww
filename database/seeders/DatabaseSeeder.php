@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([RoleSeeder::class, UserSeeder::class, SantriSeeder::class,
-        CriteriaSeeder::class,]);
+        CriteriaSeeder::class,PenilaianSeeder::class,]);
 
     }
 }
