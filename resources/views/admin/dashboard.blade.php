@@ -14,7 +14,7 @@
                             <div class="card-body">
                                 <h5 class="card-title text-success">Selamat Datang, {{ $user->name }}! 🎉</h5>
                                 <p class="mb-4">
-                                    Selamat datang di <strong>Sistem Perhitungan Penunjang Keputusan dengan SAW</strong>.
+                                    Selamat datang di <strong>Sistem Perhitungan Pendukung Keputusan dengan SAW</strong>.
                                     Anda dapat mengelola data santri, kriteria, dan penilaian di sini.
                                 </p>
 
