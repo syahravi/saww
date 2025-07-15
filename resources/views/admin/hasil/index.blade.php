@@ -18,7 +18,7 @@
                     <tr>
                         <td>S{{ $s->id }}</td>
                         <td>{{ $s->nama_santri }}</td>
-                        <td>{{ number_format($nilaiAkhirData[$s->id] ?? 0, 2) }}</td>
+                        <td>{{ number_format($nilaiAkhirData[$s->id] ?? 0, 3) }}</td>
                     </tr>
                     @endforeach
                 </tbody>

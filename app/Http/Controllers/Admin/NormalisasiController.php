@@ -16,34 +16,50 @@ class NormalisasiController extends Controller
         $criteria = Criteria::all();
         $santri = Santri::all();
 
-        // Ambil semua penilaian berdasarkan santri dan kriteria
-        $penilaian = Penilaian::all()->groupBy('criteria_id');
+        // Ambil semua penilaian, pastikan dikelompokkan berdasarkan criteria_id.
+        // Gunakan ->all() sebelum groupBy untuk memastikan Collection terbentuk,
+        // meskipun groupBy pada Collection kosong tetap aman.
+        $penilaianGroupedByCriteria = Penilaian::all()->groupBy('criteria_id');
+
         $normalisasiData = [];
 
+        // Lakukan normalisasi untuk setiap kriteria
         foreach ($criteria as $c) {
-            // Check if the current criteria_id exists in the $penilaian collection
-            if (isset($penilaian[$c->id])) {
-                $nilaiList = $penilaian[$c->id]->pluck('nilai')->toArray();
+            // Pastikan ada data penilaian untuk kriteria ini sebelum melanjutkan
+            if ($penilaianGroupedByCriteria->has($c->id)) {
+                $nilaiList = $penilaianGroupedByCriteria[$c->id]->pluck('nilai')->toArray();
 
-                if ($c->jenis == 'benefit') {
-                    // Handle case where $nilaiList might be empty to avoid max/min errors
-                    $max = !empty($nilaiList) ? max($nilaiList) : 0; // Or a suitable default
-                } else {
-                    // Handle case where $nilaiList might be empty to avoid max/min errors
-                    $min = !empty($nilaiList) ? min($nilaiList) : 0; // Or a suitable default
+                // Pastikan $nilaiList tidak kosong sebelum mencari max/min
+                if (empty($nilaiList)) {
+                    // Jika tidak ada nilai untuk kriteria ini, lewati atau tetapkan nilai default
+                    continue;
                 }
 
-                foreach ($penilaian[$c->id] as $p) {
-                    // Ensure $max or $min is not zero to prevent division by zero errors
-                    $nilaiNormalisasi = 0; // Default value in case of division by zero
+                $max = 0; // Default untuk menghindari error jika belum diinisialisasi
+                $min = 0; // Default untuk menghindari error jika belum diinisialisasi
 
-                    if ($c->jenis == 'benefit') {
+                // Cari nilai max atau min sesuai jenis kriteria
+                if ($c->type == 'benefit') {
+                    // Untuk kriteria 'benefit', ambil nilai maksimum
+                    $max = max($nilaiList);
+                } else {
+                    // Untuk kriteria 'cost', ambil nilai minimum
+                    $min = min($nilaiList);
+                }
+
+                // Lakukan normalisasi untuk setiap nilai penilaian
+                foreach ($penilaianGroupedByCriteria[$c->id] as $p) {
+                    $nilaiNormalisasi = 0; // Nilai default
+
+                    if ($c->type == 'benefit') {
+                        // Hindari pembagian dengan nol
                         if ($max != 0) {
-                            $nilaiNormalisasi = ($p->nilai / $max);
+                            $nilaiNormalisasi = $p->nilai / $max;
                         }
-                    } else {
-                        if ($p->nilai != 0) { // Check $p->nilai to prevent division by zero
-                            $nilaiNormalisasi = ($min / $p->nilai);
+                    } else { // Kriteria 'cost'
+                        // Hindari pembagian dengan nol pada $p->nilai
+                        if ($p->nilai != 0) {
+                            $nilaiNormalisasi = $min / $p->nilai;
                         }
                     }
 
@@ -53,11 +69,17 @@ class NormalisasiController extends Controller
                         ['nilai_normalisasi' => $nilaiNormalisasi]
                     );
 
+                    // Menyimpan normalisasi untuk digunakan nanti di view
                     $normalisasiData[$p->santri_id][$c->id] = $nilaiNormalisasi;
                 }
+            } else {
+                // Opsional: Handle jika tidak ada data penilaian untuk kriteria tertentu
+                // Misalnya, log pesan atau tetapkan nilai normalisasi 0
+                // $this->command->warn("Tidak ada data penilaian untuk kriteria ID: {$c->id}");
             }
         }
 
+        // Return view untuk menampilkan normalisasi yang telah dihitung
         return view('admin.normalisasi.index', compact('santri', 'criteria', 'normalisasiData'));
     }
 }

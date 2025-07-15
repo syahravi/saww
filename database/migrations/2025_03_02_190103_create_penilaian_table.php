@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('santri_id')->constrained('santri')->onDelete('cascade');
             $table->foreignId('criteria_id')->constrained('criteria')->onDelete('cascade');
-            $table->decimal('nilai', 8, 2); // Nilai dengan 2 angka desimal
+            $table->integer('nilai'); // Changed from decimal to integer
             $table->timestamps();
         });
     }

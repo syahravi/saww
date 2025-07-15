@@ -20,7 +20,7 @@
                 @foreach($criteria as $c)
                 <div class="mb-3">
                     <label class="form-label fw-bold">{{ $c->kriteria }} ({{ $c->simbol }})</label>
-                    <input type="number" name="nilai[{{ $c->id }}]" class="form-control" required>
+                    <input type="number" name="nilai[{{ $c->id }}]" class="form-control" required step="1">
                     @error("nilai.$c->id")
                         <div class="text-danger">{{ $message }}</div>
                     @enderror

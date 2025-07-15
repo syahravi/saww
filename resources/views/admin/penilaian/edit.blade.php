@@ -18,7 +18,7 @@
                 @foreach($criteria as $c)
                 <div class="mb-3">
                     <label class="form-label fw-bold">{{ $c->nama_kriteria }} ({{ $c->simbol }})</label>
-                    <input type="number" name="nilai[{{ $c->id }}]" class="form-control" value="{{ $penilaian[$c->id] ?? '' }}" required>
+                    <input type="number" name="nilai[{{ $c->id }}]" class="form-control" value="{{ $penilaian[$c->id] ?? '' }}" required step="1">
                 </div>
                 @endforeach
 

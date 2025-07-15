@@ -14,17 +14,20 @@ class SantriSeeder extends Seeder
      */
     public function run()
     {
+        // Opsional: Kosongkan tabel santri terlebih dahulu jika ingin memastikan hanya data ini yang ada
+        // Santri::truncate();
+
         $santri = [
-            ['nama_santri' => 'Atiqoh Khairunnisa'],
-            ['nama_santri' => 'Zaki Abid'],
-            ['nama_santri' => 'Zalfa Fairuz'],
-            ['nama_santri' => 'Randika'],
-            ['nama_santri' => 'Zahroh Zahidah'],
-            ['nama_santri' => 'Ananda Aditiya'],
-            ['nama_santri' => 'Zaldi'],
-            ['nama_santri' => 'Amanda'],
-            ['nama_santri' => 'Aisyah Putri Kartina'],
-            ['nama_santri' => 'Nayla'],
+            ['nama_santri' => 'ATIQOH KHAIRUNNISA'], // S1
+            ['nama_santri' => 'ZAKI ABID'],          // S2
+            ['nama_santri' => 'ZALFA FAIRUZ'],       // S3
+            ['nama_santri' => 'RANDIKA'],            // S4
+            ['nama_santri' => 'ZAHROH ZAHIDAH'],     // S5
+            ['nama_santri' => 'ANANDA ADITIYA'],     // S6
+            ['nama_santri' => 'ZALDI'],              // S7
+            ['nama_santri' => 'AMANDA'],            // S8 - Pastikan ini disengaja jika ada duplikat nama
+            ['nama_santri' => 'AISYAH PUTRI KARTINA'],// S9 (perhatikan ada typo 'KSRTINA', saya biarkan sesuai gambar)
+            ['nama_santri' => 'NAYLA'],              // S10
         ];
 
         Santri::insert($santri);

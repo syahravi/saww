@@ -16,15 +16,15 @@ class CriteriaSeeder extends Seeder
     {
         $criteria = [
             ['kriteria' => 'Adab/Akhlaq', 'simbol' => 'C1', 'bobot' => 0.25, 'type' => 'Benefit'],
-            ['kriteria' => 'Absensi Ubudiyah', 'simbol' => 'C2', 'bobot' => 0.1, 'type' => 'Benefit'],
-            ['kriteria' => 'Absensi Kegiatan Belajar Mengajar (KBM)', 'simbol' => 'C3', 'bobot' => 0.1, 'type' => 'Benefit'],
-            ['kriteria' => 'Hafalan', 'simbol' => 'C4', 'bobot' => 0.15, 'type' => 'Benefit'],
-            ['kriteria' => 'Prestasi Akademik', 'simbol' => 'C5', 'bobot' => 0.1, 'type' => 'Benefit'],
-            ['kriteria' => 'Kreatifitas', 'simbol' => 'C6', 'bobot' => 0.1, 'type' => 'Benefit'],
-            ['kriteria' => 'Poin Pelanggaran Keamanan', 'simbol' => 'C7', 'bobot' => 0.05, 'type' => 'Cost'],
-            ['kriteria' => 'Kejujuran', 'simbol' => 'C8', 'bobot' => 0.05, 'type' => 'Cost'],
-            ['kriteria' => 'Kedisiplinan', 'simbol' => 'C9', 'bobot' => 0.05, 'type' => 'Cost'],
-            ['kriteria' => 'Kepedulian', 'simbol' => 'C10', 'bobot' => 0.05, 'type' => 'Cost'],
+            ['kriteria' => 'Poin Pelanggaran Keamanan', 'simbol' => 'C2', 'bobot' => 0.10, 'type' => 'Benefit'],
+            ['kriteria' => 'Absensi Ubudiyah', 'simbol' => 'C3', 'bobot' => 0.10, 'type' => 'Benefit'],
+            ['kriteria' => 'Absensi Kegiatan Belajar Mengajar (KBM)', 'simbol' => 'C4', 'bobot' => 0.15, 'type' => 'Benefit'],
+            ['kriteria' => 'Hafalan', 'simbol' => 'C5', 'bobot' => 0.10, 'type' => 'Benefit'],
+            ['kriteria' => 'Prestasi Akademik', 'simbol' => 'C6', 'bobot' => 0.10, 'type' => 'Benefit'],
+            ['kriteria' => 'Kreatifitas', 'simbol' => 'C7', 'bobot' => 0.05, 'type' => 'Cost'], // Sesuai dengan gambar
+            ['kriteria' => 'Kejujuran', 'simbol' => 'C8', 'bobot' => 0.05, 'type' => 'Cost'], // Sesuai dengan gambar
+            ['kriteria' => 'Kedisiplinan', 'simbol' => 'C9', 'bobot' => 0.05, 'type' => 'Cost'], // Sesuai dengan gambar
+            ['kriteria' => 'Kepedulian', 'simbol' => 'C10', 'bobot' => 0.05, 'type' => 'Cost'], // Sesuai dengan gambar
         ];
 
         Criteria::insert($criteria);
